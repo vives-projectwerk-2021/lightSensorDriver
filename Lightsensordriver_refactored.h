@@ -12,7 +12,7 @@ class LightSensors {
         // constructor
         LightSensors(I2C *i2c);
         
-        // read temperature from within the tube
+        // read the amount of Lux
         double readLux();
 
         // enter sleep mode
@@ -21,10 +21,11 @@ class LightSensors {
         // wake up
         void wake();
 
+    // pointer
     private:
         I2C *i2c;
     
-    // adresses and pointers
+    // adresses
     private:
         // Device Address
         const char I2C_ADDRESS = 0x29; // 7-bit Address

@@ -64,6 +64,5 @@ double LightSensors::readLux()
     }
     else {
         return lux = 0; 
-    }
-        
+    }   
 }
