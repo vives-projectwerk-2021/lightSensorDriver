@@ -27,7 +27,7 @@ void LightSensors::wake()
 
 double LightSensors::readLux()
 {
-    char data[3];
+    char data[4];
     char cmd[1] {0};                        // empty data buffer
     cmd[0] = DATA_CH_1_0_ADDR;              // Pointer to DATA register
     i2c->write(I2C_ADDRESS, cmd, 1);
