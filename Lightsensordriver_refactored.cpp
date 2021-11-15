@@ -28,22 +28,26 @@ void LightSensors::wake()
 double LightSensors::readLux()
 {
     char data[3];
-    char cmd[2] {0};                        // empty data buffer
+    char cmd[1] {0};                        // empty data buffer
     cmd[0] = DATA_CH_1_0_ADDR;              // Pointer to DATA register
+    i2c->write(I2C_ADDRESS, cmd, 1);
     i2c->read(I2C_ADDRESS, cmd, 1);            // Read 1 byte from DATA register
-    data[0] = cmd[1];
+    data[0] = cmd[0];
 
     cmd[0] = DATA_CH_1_1_ADDR;              // Pointer to DATA register
+    i2c->write(I2C_ADDRESS, cmd, 1);
     i2c->read(I2C_ADDRESS, cmd, 1);            // Read 1 byte from DATA register
-    data[1] = cmd[1];
+    data[1] = cmd[0];
 
     cmd[0] = DATA_CH_0_0_ADDR;              // Pointer to DATA register
+    i2c->write(I2C_ADDRESS, cmd, 1);
     i2c->read(I2C_ADDRESS, cmd, 1);            // Read 1 byte from DATA register
-    data[2] = cmd[1];
+    data[2] = cmd[0];
 
     cmd[0] = DATA_CH_0_1_ADDR;              // Pointer to DATA register
+    i2c->write(I2C_ADDRESS, cmd, 1);
     i2c->read(I2C_ADDRESS, cmd, 1);            // Read 1 byte from DATA register
-    data[3] = cmd[1];
+    data[3] = cmd[0];
 
     uint16_t CH1_ADC_Data = (data[1] << 8) | data[0]; // Combining lower and upper bytes to give 16-bit Ch1 data
     uint16_t CH0_ADC_Data = (data[3] << 8) | data[2]; // Combining lower and upper bytes to give 16-bit Ch0 data
