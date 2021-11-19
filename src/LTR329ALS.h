@@ -1,5 +1,5 @@
-#ifndef LIGHTSENSORDRIVER_REFACTORED_H
-#define LIGHTSENSORDRIVER_REFACTORED_H
+#ifndef LTR329ALS_H
+#define LTR329ALS_H
 
 #include "mbed.h"
 #include <stdint.h>

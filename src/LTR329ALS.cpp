@@ -1,4 +1,4 @@
-#include "Lightsensordriver_refactored.h"
+#include "LTR329ALS.h"
 #include "mbed.h"
 #include <stdint.h>
 #include <stdbool.h>
@@ -22,7 +22,7 @@ void LightSensors::wake()
     cmd[0] = CONTROL_ADDR;                 // Pointer to CONTROL register
     cmd[1] = 0x01;                    // Data for CONTROL register (enter active mode)
     i2c->write(I2C_ADDRESS, cmd, 2);            // Send Address and command
-    wait(10);                          //wake up time from standby
+    ThisThread::sleep_for(10ms);                          //wake up time from standby
 }
 
 double LightSensors::readLux()
