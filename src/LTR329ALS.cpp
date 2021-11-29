@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-LTR329ALS::LightSensors(I2C *i2c, uint8_t address)
+LTR329ALS::LTR329ALS(I2C *i2c, uint8_t address)
 {
     this->i2c = i2c;
     this->address = address;
