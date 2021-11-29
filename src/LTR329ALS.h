@@ -6,11 +6,11 @@
 #include <stdbool.h>
 #include "I2C.h"
 
-class LightSensors {
+class LTR329ALS {
     // public methods
     public:
         // constructor
-        LightSensors(I2C *i2c);
+        LTR329ALS(I2C *i2c, uint8_t address);
         
         // read the amount of Lux
         double readLux();
@@ -24,11 +24,10 @@ class LightSensors {
     // pointer
     private:
         I2C *i2c;
+        uint8_t address;
     
     // adresses
     private:
-        // Device Address
-        const char I2C_ADDRESS = 0x29 >> 1; // 8-bit Address
         // Register Address
         const char CONTROL_ADDR = 0x80;
         const char DATA_CH_1_0_ADDR = 0x88;
