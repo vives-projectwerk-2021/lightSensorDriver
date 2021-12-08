@@ -6,11 +6,11 @@ Library for the light sensor LTR329ALS01
 
 ```c
 #include "mbed.h"
-#include "Lightsensordriver_refactored.h"
+#include "LTR329ALS.h"
 
 I2C i2c(I2C_SDA, I2C_SCL);
 
-LightSensors light(&i2c);
+LTR329ALS light(&i2c, 0x29 << 1);
 
 int main()
 {
