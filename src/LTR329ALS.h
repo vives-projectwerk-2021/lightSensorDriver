@@ -13,13 +13,13 @@ class LTR329ALS {
         LTR329ALS(I2C *i2c, uint8_t address);
         
         // read the amount of Lux
-        double readLux();
+        double readLux(bool* error = nullptr);
 
         // enter sleep mode
-        void sleep();
+        bool sleep();
 
         // wake up
-        void wake();
+        bool wake();
 
     // pointer
     private:

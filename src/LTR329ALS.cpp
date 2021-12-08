@@ -9,45 +9,86 @@ LTR329ALS::LTR329ALS(I2C *i2c, uint8_t address)
     this->address = address;
 }
 
-void LTR329ALS::sleep()
+/** Set the register to enter sleep mode
+ * @return 0 on success
+ */
+bool LTR329ALS::sleep()
 {
     char cmd[2] {0};                        // empty data buffer
-    cmd[0] = CONTROL_ADDR;                 // Pointer to CONTROL register
-    cmd[1] = 0x00;                    // Data for CONTROL register (enter standby mode)
-    i2c->write(address, cmd, 2);            // Send Address and command
+    cmd[0] = CONTROL_ADDR;                  // Pointer to CONTROL register
+    cmd[1] = 0x00;                          // Data for CONTROL register (enter standby mode)
+    return i2c->write(address, cmd, 2);     // Send Address and command
 }
 
-void LTR329ALS::wake()
+/** Set the register to leave sleep mode
+ * @return 0 on success
+ */
+bool LTR329ALS::wake()
 {
     char cmd[2] {0};                        // empty data buffer
-    cmd[0] = CONTROL_ADDR;                 // Pointer to CONTROL register
-    cmd[1] = 0x01;                    // Data for CONTROL register (enter active mode)
-    i2c->write(address, cmd, 2);            // Send Address and command
+    cmd[0] = CONTROL_ADDR;                  // Pointer to CONTROL register
+    cmd[1] = 0x01;                          // Data for CONTROL register (enter active mode)
+    return i2c->write(address, cmd, 2);     // Send Address and command
 }
 
-double LTR329ALS::readLux()
+double LTR329ALS::readLux(bool* error)
 {
-    char data[4];
+    bool ack;
+    char data[4] {0};
     char cmd[1] {0};                        // empty data buffer
     cmd[0] = DATA_CH_1_0_ADDR;              // Pointer to DATA register
-    i2c->write(address, cmd, 1);
-    i2c->read(address, cmd, 1);            // Read 1 byte from DATA register
+    ack = i2c->write(address, cmd, 1);
+    if(ack) {
+        if(error != nullptr) *error = true;
+        return 0;
+    }
+    ack = i2c->read(address, cmd, 1);            // Read 1 byte from DATA register
+    if(ack) {
+        if(error != nullptr) *error = true;
+        return 0;
+    }
     data[0] = cmd[0];
 
     cmd[0] = DATA_CH_1_1_ADDR;              // Pointer to DATA register
-    i2c->write(address, cmd, 1);
-    i2c->read(address, cmd, 1);            // Read 1 byte from DATA register
+    ack = i2c->write(address, cmd, 1);
+    if(ack) {
+        if(error != nullptr) *error = true;
+        return 0;
+    }
+    ack = i2c->read(address, cmd, 1);            // Read 1 byte from DATA register
+    if(ack) {
+        if(error != nullptr) *error = true;
+        return 0;
+    }
     data[1] = cmd[0];
 
     cmd[0] = DATA_CH_0_0_ADDR;              // Pointer to DATA register
-    i2c->write(address, cmd, 1);
-    i2c->read(address, cmd, 1);            // Read 1 byte from DATA register
+    ack = i2c->write(address, cmd, 1);
+    if(ack) {
+        if(error != nullptr) *error = true;
+        return 0;
+    }
+    ack = i2c->read(address, cmd, 1);            // Read 1 byte from DATA register
+    if(ack) {
+        if(error != nullptr) *error = true;
+        return 0;
+    }
     data[2] = cmd[0];
 
     cmd[0] = DATA_CH_0_1_ADDR;              // Pointer to DATA register
-    i2c->write(address, cmd, 1);
-    i2c->read(address, cmd, 1);            // Read 1 byte from DATA register
+    ack = i2c->write(address, cmd, 1);
+    if(ack) {
+        if(error != nullptr) *error = true;
+        return 0;
+    }
+    ack = i2c->read(address, cmd, 1);            // Read 1 byte from DATA register
+    if(ack) {
+        if(error != nullptr) *error = true;
+        return 0;
+    }
     data[3] = cmd[0];
+
+    if(error != nullptr) *error = false;
 
     uint16_t CH1_ADC_Data = (data[1] << 8) | data[0]; // Combining lower and upper bytes to give 16-bit Ch1 data
     uint16_t CH0_ADC_Data = (data[3] << 8) | data[2]; // Combining lower and upper bytes to give 16-bit Ch0 data
